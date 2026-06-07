@@ -1,0 +1,12 @@
+I am the owner of lucafchala.com and all its subdomains.
+
+Domain:      lucafchala.com
+Owner:       Luca F. Chala
+Contact:     lfchala4@gmail.com
+Date:        2026-06-07
+
+PGP fingerprint: 48E7 3F6F A287 1E7B 86EF EA64 8EC4 329A 369B 7B33
+Full PGP key:    https://paste.lucafchala.com/pgp
+
+This file is signed with the key above. Verify with:
+  gpg --verify proof-of-ownership.txt.asc
