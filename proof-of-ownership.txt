@@ -1,0 +1,29 @@
+I, Luca Ferriani Chala, was formerly the owner of https://tucas.me (now expired).
+I am now the legitimate owner and operator of https://lucafchala.com and all
+subdomains associated with it.
+
+All official communications and verifiable actions associated with me or this
+domain may originate from the following email addresses:
+
+  - lfchala4@gmail.com
+  - alt.lfchala4@gmail.com
+  - luca@lucafchala.com (and any valid prefix *@lucafchala.com)
+  - tucas@fastmail.com
+  - tucas@omg.lol
+  - Institutional Use Only: sc172618@santacruz.g12.br
+
+Note: The former domain tucas.me and all associated addresses (*@tucas.me)
+are no longer under my control and should be considered untrusted.
+
+To verify authorship or authenticity of this page, confirm against my Public PGP Key.
+
+PGP fingerprint: 48E7 3F6F A287 1E7B 86EF EA64 8EC4 329A 369B 7B33
+Full PGP key:    https://paste.lucafchala.com/pgp
+
+Any message claiming to represent me or lucafchala.com that concerns sensitive
+matters, code, or financial transactions must be signed. Any such message lacking
+cryptographic proof must be considered untrusted.
+
+If you can't comprehend this, here isn't the place for you.
+
+Signed on: May 21st, 2025
