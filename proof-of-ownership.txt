@@ -15,6 +15,12 @@ domain may originate from the following email addresses:
 Note: The former domain tucas.me and all associated addresses (*@tucas.me)
 are no longer under my control and should be considered untrusted.
 
+Social media accounts associated with me:
+
+  - Instagram: https://instagram.com/lucafchala (@lucafchala)
+  - Facebook:  https://facebook.com/lucafchala (@lucafchala)
+  - Phone:     +55 (11) 9 8921-1178
+
 To verify authorship or authenticity of this page, confirm against my Public PGP Key.
 
 PGP fingerprint: 48E7 3F6F A287 1E7B 86EF EA64 8EC4 329A 369B 7B33
@@ -26,4 +32,4 @@ cryptographic proof must be considered untrusted.
 
 If you can't comprehend this, here isn't the place for you.
 
-Signed on: May 21st, 2025
+Signed on: Jun. 8th, 2026
