@@ -1,46 +1,61 @@
-# proof.lucafchala.com — scaffold
+# proof.lucafchala.com
 
-> **Status: to build.** Scaffold only (README + structure). The page is **not** generated yet.
+> A PGP-signed statement of the domains, addresses and accounts that belong to Luca Ferriani Chala, and how to verify it.
 
-Proof-of-ownership / identity page. The homepage footer links here three times: **"Prova de propriedade"**, **"Proven.lol ↗"**, and **"Chave PGP ↗"**. The `url` hub grid lists it as **"proof — prova de domínio"**.
+**Live:** [proof.lucafchala.com](https://proof.lucafchala.com) · **Stack:** static HTML + CSS, **no JavaScript** · **Host:** Cloudflare Pages
 
-## Architecture
+Part of the [lucafchala.com ecosystem](https://github.com/lucafchala/lucafchala.com#the-ecosystem). Design system: [hub README](https://github.com/lucafchala/lucafchala.com#design-system).
 
-- **Platform:** Cloudflare Pages, static, no build step.
-- **Repo to create:** `lucafchala/proof.lucafchala.com` → Pages project → DNS `proof` CNAME.
+---
 
-## Two ways to build it (pick one)
+## What it is
 
-1. **Standalone page** — `index.html` stating ownership of `lucafchala.com`, showing the PGP fingerprint, linking to the full key, and (optionally) embedding/linking the [proven.lol](https://proven.lol) attestation.
-2. **Redirect** — a `_redirects` sending `proof` → `paste.lucafchala.com/proof-of-ownership` (once that paste exists). Simplest, but depends on the paste site.
+The statement is a clearsigned PGP message, signed on 2026‑06‑08 by key `48E7 3F6F A287 1E7B 86EF  EA64 8EC4 329A 369B 7B33`. The page shows it verbatim, with a "how to verify" section and download links.
 
-## Source / data
+## Verify it
 
-- **PGP fingerprint:** `48E7 3F6F A287 1E7B 86EF EA64 8EC4 329A 369B 7B33`
-- Full PGP key lives at `paste.lucafchala.com/pgp` (currently a placeholder — paste the real armored key there).
-- ⚠️ The signed `proof-of-ownership.txt` was **not** committed in the migration export — regenerate it from the PGP key (`gpg --clearsign`) before building the standalone version.
-
-## Structure to build (standalone option)
-
-```
-proof.lucafchala.com/
-├── index.html    # ownership statement + PGP fingerprint + link to full key + proven.lol; copy button
-└── icon.svg      # (optional)
+```bash
+curl -fsSL https://keys.lucafchala.com/pgp.asc | gpg --import
+curl -fsSL https://proof.lucafchala.com/proof.txt.asc | gpg --verify
+# → Good signature from "Luca Ferriani Chala <lfchala4@gmail.com>"
+#   Primary key fingerprint: 48E7 3F6F A287 1E7B 86EF  EA64 8EC4 329A 369B 7B33
 ```
 
-### Or, redirect option — put this in `_redirects` instead
-```
-/*  https://paste.lucafchala.com/proof-of-ownership  301
-```
+## Files
 
-## Design
+| File | What |
+|---|---|
+| `index.html` | The page. The statement sits inside `<pre class="signed">` **byte-for-byte as signed**, wrapped in `<!--email_off-->…<!--/email_off-->` |
+| `proof.txt.asc` | The same clearsigned statement as plain text |
+| `proof-of-ownership.txt` | Also the current signed statement (kept at this path because the status monitor and older links use it) |
+| `pgp.asc` | Vendored copy of the public key (identical to keys.lucafchala.com/pgp.asc), used by CI to verify |
+| `proof.css` | Styles; theme follows the OS (`prefers-color-scheme`), since there is no JS |
+| `icon.svg`, `fonts/` | Icon and self-hosted fonts |
+| `_headers` | CSP `default-src 'none'; script-src 'none'; style-src 'self'; font-src 'self'; img-src 'self'`, HSTS, COOP/CORP, `text/plain` + CORS for the `.asc`/`.txt` files, `Link` hints |
+| `sitemap.xml`, `robots.txt`, `.well-known/security.txt` | Discovery |
 
-Shared ecosystem design system. ➡️ <https://github.com/lucafchala/lucafchala.com#design-system>
+## Why `<!--email_off-->`
 
-## Deploy
+The Cloudflare zone has Email Obfuscation on. It rewrites every address in the HTML to `[email protected]` and relies on a decoder script to restore it. This site allows **no** scripts, so visitors saw `[email protected]` inside the signed text, which then no longer matched the signature. The `email_off` comments tell Cloudflare to leave that block alone.
 
-1. Create repo `lucafchala/proof.lucafchala.com`, push the file(s).
-2. Cloudflare Pages → no build, root output.
-3. DNS: `proof` CNAME → Pages project URL.
+## Changing the statement
 
-> **Note / decide:** the live homepage points **PGP → proof** and **SSH → keys**, while the original migration plan put PGP/SSH as pastes. Decide whether `proof` (this repo) or `keys` is the canonical home for the PGP key and keep them cross-linked.
+Any change inside the `<pre>` — even re-indenting — invalidates the signature. To change the text:
+
+1. Write the new statement and clearsign it: `gpg --clearsign --local-user 48E73F6FA2871E7B86EFEA648EC4329A369B7B33 statement.txt`.
+2. Put the output in `proof.txt.asc` and `proof-of-ownership.txt`.
+3. Paste it into the `<pre class="signed">` block of `index.html`, HTML-escaping `&`, `<` and `>` (the current text has none).
+4. Update the "Signed" date on the page and in `sitemap.xml`.
+
+CI refuses to merge anything whose signature doesn't verify.
+
+## CI (`.github/workflows/checks.yml`)
+
+- `_headers` present; **no `<script>` or `on*=` anywhere**.
+- `gpg --verify` with the vendored key on: the text extracted from the page, `proof.txt.asc`, and `proof-of-ownership.txt`. The job requires a `VALIDSIG` from `48E73F6F…7B33`.
+- The signed `<pre>` is wrapped in `email_off`.
+- `proof-of-ownership.txt` contains `Luca Ferriani Chala` (the status monitor's marker).
+
+## Status
+
+**In production.**
