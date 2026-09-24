@@ -2,12 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>proof.lucafchala.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proof of identity — Luca F. Chala</title>
+<meta name="description" content="PGP-signed statement of the domains, addresses and accounts that belong to Luca Ferriani Chala, with instructions to verify it.">
+<meta name="theme-color" content="#0d0c0a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://proof.lucafchala.com/">
+<link rel="author" href="https://lucafchala.com/">
+<link rel="me" href="https://keys.lucafchala.com/">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="text/plain" href="/proof.txt.asc" title="Signed statement">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="proof.lucafchala.com">
+<meta property="og:title" content="Proof of identity — Luca F. Chala">
+<meta property="og:description" content="PGP-signed statement · key 48E7 3F6F A287 1E7B 86EF EA64 8EC4 329A 369B 7B33">
+<meta property="og:url" content="https://proof.lucafchala.com/">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/proof.css">
 </head>
-<body style="background-color:black;">
-<pre style="color: white;">
+<body>
+<a class="skip" href="#statement">Skip to the statement</a>
+<nav class="top"><a href="https://lucafchala.com/">← lucafchala.com</a><a href="https://keys.lucafchala.com/">keys →</a></nav>
+
+<header>
+  <h1>Proof <em>of identity</em></h1>
+  <p class="micro">Luca Ferriani Chala · PGP 48E7 3F6F … 369B 7B33</p>
+</header>
+
+<p class="lede">The statement below is signed with my PGP key. It lists the domains, addresses and accounts that are mine — anything else claiming to be me should be treated as untrusted.</p>
+<p class="lede" lang="pt-BR">A declaração abaixo é assinada com a minha chave PGP e lista os domínios, e-mails e contas que são meus. Qualquer outro que diga ser eu deve ser tratado como não confiável.</p>
+
+<div class="rule">SIGNED STATEMENT</div>
+<main id="statement">
+<!--email_off-->
+<pre class="signed" tabindex="0" aria-label="Signed statement">
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
@@ -61,7 +90,29 @@ qaXhjjvhLVnIBMsF2TDy6JzcemnjutlSBJNkPTEC2vw+XBdmfklME6a+L4YgqA38
 UovaN+eJIdpHwOD+tzd2NI6tNVo41sZ9vx6nNnPnUOcz5DhhP9w=
 =lE8T
 -----END PGP SIGNATURE-----
-
 </pre>
+<!--/email_off-->
+<div class="actions">
+  <a class="btn" href="/proof.txt.asc" download="lucafchala-proof.txt.asc">download .asc</a>
+  <a class="btn" href="/pgp.asc" download="lucafchala.asc">public key</a>
+  <a class="btn" href="https://keys.openpgp.org/search?q=48E73F6FA2871E7B86EFEA648EC4329A369B7B33">keys.openpgp.org ↗</a>
+</div>
+
+<div class="rule">HOW TO VERIFY</div>
+<ol class="steps">
+  <li><span>Import the public key (also on <a href="https://keys.lucafchala.com/">keys.lucafchala.com</a>):</span><code class="cmd" tabindex="0">curl -fsSL https://keys.lucafchala.com/pgp.asc | gpg --import</code></li>
+  <li><span>Verify the signed statement:</span><code class="cmd" tabindex="0">curl -fsSL https://proof.lucafchala.com/proof.txt.asc | gpg --verify</code></li>
+  <li><span>Check that gpg reports <em>Good signature</em> and this primary key fingerprint:</span><code class="cmd" tabindex="0">48E7 3F6F A287 1E7B 86EF  EA64 8EC4 329A 369B 7B33</code></li>
+</ol>
+
+<div class="rule">KEY</div>
+<dl class="facts">
+  <dt>Algorithm</dt><dd>RSA 4096, created 2023-11-07</dd>
+  <dt>Fingerprint</dt><dd>48E7 3F6F A287 1E7B 86EF  EA64 8EC4 329A 369B 7B33</dd>
+  <dt>Signed</dt><dd>2026-06-08 21:06 UTC</dd>
+</dl>
+</main>
+
+<footer>Plain text copies: <a href="/proof.txt.asc">proof.txt.asc</a> · <a href="/proof-of-ownership.txt">proof-of-ownership.txt</a></footer>
 </body>
 </html>

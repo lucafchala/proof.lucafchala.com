@@ -1,13 +1,32 @@
 /*
-  Content-Security-Policy: default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'none'; style-src 'self'; font-src 'self'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-site
 
+# Signed text and key, readable by `curl | gpg` and from other origins.
+/proof.txt.asc
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+
+/proof-of-ownership.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+
+/pgp.asc
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Agent/crawler discovery hints on the homepage (RFC 8288).
 /
-  Link: <https://proof.lucafchala.com/>; rel="canonical", </sitemap.xml>; rel="sitemap", <https://lucafchala.com/>; rel="author"
+  Link: <https://proof.lucafchala.com/>; rel="canonical", </sitemap.xml>; rel="sitemap", <https://lucafchala.com/>; rel="author", <https://keys.lucafchala.com/>; rel="me"

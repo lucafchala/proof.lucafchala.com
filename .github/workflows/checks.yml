@@ -3,25 +3,52 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate JSON files
-        run: |
-          set -e
-          find . -name '*.json' -not -path '*/node_modules/*' -not -path './.git/*' | while read -r f; do
-            python3 -m json.tool "$f" > /dev/null || { echo "Invalid JSON: $f"; exit 1; }
-          done
-
-      - name: Forbid weak HTML escapers (must also escape quotes)
-        run: |
-          if grep -rnE --include='*.html' --include='*.js' --exclude-dir=node_modules --exclude-dir=.git "replace\(/>/g, ?'&gt;'\) *[;)]" .; then
-            echo "Found a 3-char HTML escaper - use the canonical 5-char version that also escapes quotes"
-            exit 1
-          fi
-
       - name: Security headers file present
         run: test -f _headers
+
+      - name: No scripts at all (CSP is script-src 'none')
+        run: |
+          if grep -rnE --include='*.html' '<script|\son[a-z]+=' .; then
+            echo "proof.lucafchala.com ships no JavaScript — the CSP would block it anyway"; exit 1
+          fi
+
+      # Any edit inside the <pre> (even re-indenting) breaks the signature.
+      # This catches it before it ships.
+      - name: The signed statement verifies (page, .asc and .txt)
+        run: |
+          set -e
+          export GNUPGHOME="$(mktemp -d)"
+          gpg --batch --quiet --import pgp.asc
+          python3 - <<'PY'
+          import html, re
+          page = open('index.html', encoding='utf-8').read()
+          m = re.search(r'<pre class="signed"[^>]*>\n(.*?)</pre>', page, re.S)
+          assert m, 'signed <pre> not found'
+          open('/tmp/from-page.asc', 'w', encoding='utf-8').write(html.unescape(m.group(1)))
+          PY
+          for f in /tmp/from-page.asc proof.txt.asc proof-of-ownership.txt; do
+            out=$(gpg --batch --status-fd 1 --verify "$f" 2>/dev/null)
+            echo "$out" | grep -q '^\[GNUPG:\] VALIDSIG 48E73F6FA2871E7B86EFEA648EC4329A369B7B33 ' || { echo "BAD or missing signature: $f"; echo "$out"; exit 1; }
+            echo "Good signature: $f"
+          done
+
+      - name: Email obfuscation is switched off around the statement
+        run: |
+          python3 - <<'PY'
+          page = open('index.html', encoding='utf-8').read()
+          a, b, pre = page.find('<!--email_off-->'), page.find('<!--/email_off-->'), page.find('<pre class="signed"')
+          assert 0 <= a < pre < b, 'wrap the signed <pre> in <!--email_off-->…<!--/email_off--> or Cloudflare rewrites the addresses'
+          print('email_off wraps the statement.')
+          PY
+
+      - name: Status-monitor marker present
+        run: grep -q 'Luca Ferriani Chala' proof-of-ownership.txt
