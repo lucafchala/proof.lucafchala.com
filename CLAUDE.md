@@ -8,3 +8,7 @@ A PGP-signed identity statement. Static HTML + CSS, **no JavaScript at all** (CS
 - **`pgp.asc`** is a vendored copy of keys.lucafchala.com/pgp.asc, used by CI.
 - **Changing the statement requires re-signing it** (see README → "Changing the statement"). An assistant can't do that; ask the owner.
 - **Styles** live in `proof.css` (style-src `'self'`, no inline styles). The theme comes from `prefers-color-scheme`.
+
+## Album launch notice
+
+- **Album launch notice: server-side only.** fotos' strip is inserted by `functions/_middleware.js` (`functions/_lib/destaque-servidor.js`, an identical copy in keys, pays and proof). Never load fotos' `/destaque.js` here or add fotos to the CSP: this page ships no JavaScript at all, and the strip is plain HTML + CSS. Keep `_routes.json` limited to `/`, keep fotos' answer escaped and limited to known album hosts, and change the copies together. See README → "Album launch notice".
